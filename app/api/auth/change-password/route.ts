@@ -17,10 +17,15 @@ export async function PUT(req: Request) {
     if (!token) {
       return NextResponse.json({ error: "Token missing" }, { status: 401 });
     }
-
-    let payload: any;
+interface MyJwtPayload {
+  id: string;
+  email: string;
+  iat: number;
+  exp: number;
+}
+let payload = new Object() as MyJwtPayload;
     try {
-      payload = jwt.verify(token, process.env.JWT_SECRET!);
+       payload = jwt.verify(token, process.env.JWT_SECRET!) as MyJwtPayload;
     } catch (err) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
