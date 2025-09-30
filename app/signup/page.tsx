@@ -26,7 +26,17 @@ export default function Signup() {
 
     const data = await res.json();
     setMessage(data.message);
-    console.log(message)
+            toast.success('Signed up successfully!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
     router.push("/login");
   }
 
