@@ -30,6 +30,7 @@ export default function Login() {
 
     if (data.message) {
       setMessage(data.message);
+      console.log(message)
         setUser(data.user);
       router.push("/"); 
     } else {

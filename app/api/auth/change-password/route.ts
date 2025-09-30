@@ -26,7 +26,7 @@ interface MyJwtPayload {
 let payload = new Object() as MyJwtPayload;
     try {
        payload = jwt.verify(token, process.env.JWT_SECRET!) as MyJwtPayload;
-    } catch (err) {
+    } catch  {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 

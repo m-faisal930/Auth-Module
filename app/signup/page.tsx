@@ -26,6 +26,7 @@ export default function Signup() {
 
     const data = await res.json();
     setMessage(data.message);
+    console.log(message)
     router.push("/login");
   }
 
