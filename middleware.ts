@@ -1,24 +1,39 @@
-// middleware.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
 
 export function middleware(req: NextRequest) {
+  const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
 
-  // protect /dashboard and /profile routes
-  const protectedPaths = ["/dashboard", "/profile"];
-  if (!protectedPaths.some(p => pathname.startsWith(p))) return NextResponse.next();
+  const publicRoutes = ["/login", "/signup"];
 
-  const token = req.cookies.get("auth_token")?.value;
-  if (!token) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
+
+  if (!token && !publicRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // Optionally: you can verify token signature using 'jose' (edge-compatible)
+
+  if (token) {
+    try {
+      jwt.verify(token, process.env.JWT_SECRET!);
+    } catch {
+      const res = NextResponse.redirect(new URL("/login", req.url));
+      res.cookies.delete("token");
+      return res;
+    }
+
+
+    if (publicRoutes.includes(pathname)) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  }
+
   return NextResponse.next();
 }
 
+
 export const config = {
-  matcher: ["/dashboard/:path*", "/profile/:path*"]
+  matcher: ["/((?!_next|api|static|favicon.ico).*)"],
+   runtime: "nodejs", 
 };
