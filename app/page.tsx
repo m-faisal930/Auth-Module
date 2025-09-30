@@ -1,19 +1,30 @@
+"use client";
+
+
+
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Home() {
+    const { logout, user } = useAuth();
   return (
-    <div className="font-sans ">
-      <h2>Authontication App</h2>
-      <p>Sign up, log in, and change your password securely.</p>
-        <Link href="/signup" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Signup
-        </Link>
-      <Link href="/login" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 ml-4">
-        Login
-      </Link>
-      <Link href="/change-password" className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 ml-4">
-        Change Password
-      </Link>
+    <div className="font-sans text-center mt-10 min-h-screen bg-gray-100 p-5">
+
+      {user &&
+
+      <button onClick={logout} className="bg-blue-500 text-white px-4 py-2 rounded mb-5">
+        Logout
+      </button>
+      }
+      { user &&
+
+      <h2 className="text-gray-800 font-bold">Authontication App</h2>
+      }
+      
+      {
+        user &&
+      <p className="text-gray-500">{user?.email}, welcome!</p>
+      }
 
 
     </div>
