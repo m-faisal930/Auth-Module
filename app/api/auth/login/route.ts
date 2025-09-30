@@ -28,7 +28,21 @@ export async function POST(req: Request) {
       expiresIn: "1h",
     });
 
-    return NextResponse.json({ token }, { status: 200 });
+
+  const response = NextResponse.json({
+    message: "Login successful",
+    user: { id: user._id, email: user.email },
+  });
+
+  response.cookies.set("token", token, {
+    httpOnly: true, 
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: "strict", 
+    maxAge: 60 * 60 * 24, 
+    path: "/", 
+  });
+
+    return response;
   } catch (err) {
     return NextResponse.json({ error:  err }, { status: 500 });
   }
