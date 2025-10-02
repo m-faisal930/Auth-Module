@@ -48,7 +48,10 @@ export async function PUT(req: Request) {
         user.password = hashed;
         await user.save();
 
-        return NextResponse.json({ message: "Password changed successfully" }, { status: 200 });
+          const response = NextResponse.json( {message: "Password changed successfully" }, { status: 200 });
+          response.cookies.set("token", "", { maxAge: 0 }); 
+          return response;
+
 
 
     } catch (err) {
