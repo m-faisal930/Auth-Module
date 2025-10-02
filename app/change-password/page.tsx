@@ -15,6 +15,7 @@ export default function ChangePasswordPage() {
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [newPassword, setNewPassword] = useState("");
     const [showNewPassword, setShowNewPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     function validate(values: { password: string }) {
         const newErrors: { [key: string]: string } = {};
@@ -33,6 +34,7 @@ export default function ChangePasswordPage() {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setLoading(true);
 
         const formData = new FormData(e.currentTarget);
         const values = {
@@ -65,8 +67,10 @@ export default function ChangePasswordPage() {
                 transition: Bounce,
             });
             setTimeout(() => router.push("/login"), 2000);
+            setLoading(false);
         } else {
             toast.error(data.error || "Something went wrong");
+            setLoading(false);
         }
     }
 
@@ -104,7 +108,7 @@ export default function ChangePasswordPage() {
                                 <div className="relative w-full">
                                     <input
                                         type={showOldPassword ? "text" : "password"}
-                                        placeholder="password"
+                                        placeholder="old password"
                                         name="oldPassword"
                                         id="oldPassword"
                                         className="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-gray-600 focus:border-gray-600 block w-full p-2.5"
@@ -135,7 +139,7 @@ export default function ChangePasswordPage() {
                                 <div className="relative w-full">
                                     <input
                                         type={showNewPassword ? "text" : "password"}
-                                        placeholder="password"
+                                        placeholder="new password"
                                         name="newPassword"
                                         id="newPassword"
                                         className="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-gray-600 focus:border-gray-600 block w-full p-2.5"
@@ -153,27 +157,6 @@ export default function ChangePasswordPage() {
 
                                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                 {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                             </div>
                             <div className="flex items-center justify-between">
@@ -183,7 +166,13 @@ export default function ChangePasswordPage() {
                                 type="submit"
                                 className="w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                             >
-                                Change Password
+
+                                {loading ? (
+                                    <div className="flex items-center justify-center">
+                                        <div className="w-5 h-5 border-4 border-white border-t-transparent border-solid rounded-full animate-spin mx-auto"></div>
+                                    </div>
+                                ) : "Change Password"}
+
                             </button>
                         </form>
                     </div>

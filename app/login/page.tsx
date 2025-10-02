@@ -14,9 +14,11 @@ export default function Login() {
     const { setUser } = useAuth();
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setLoading(true);
 
         const formData = new FormData(e.currentTarget);
 
@@ -45,8 +47,10 @@ export default function Login() {
             });
             setUser(data.user);
             router.push("/");
+            setLoading(false);
         } else {
             toast.error(data.error || "Login failed")
+            setLoading(false);
         }
     }
 
@@ -125,7 +129,13 @@ export default function Login() {
                                     type="submit"
                                     className="w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                                 >
-                                    Sign in
+
+
+                                    {loading ? (
+                                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
+                                    ) : (
+                                        "Sign In"
+                                    )}
                                 </button>
                                 <p className="text-sm font-light text-gray-500">
                                     Don’t have an account yet?{" "}

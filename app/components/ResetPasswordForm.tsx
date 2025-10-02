@@ -13,7 +13,8 @@ export default function ResetPasswordPage() {
 
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [showPassword, setShowPassword] = useState(false); 
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     function validate(values: { password: string }) {
         const newErrors: { [key: string]: string } = {};
@@ -31,6 +32,7 @@ export default function ResetPasswordPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         const newErrors = validate({ password });
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -53,8 +55,10 @@ export default function ResetPasswordPage() {
                 transition: Bounce,
             });
             setTimeout(() => router.push("/login"), 2000);
+            setLoading(false);
         } else {
             toast.error(data.error || "Something went wrong");
+            setLoading(false);
         }
     };
 
@@ -70,8 +74,8 @@ export default function ResetPasswordPage() {
                             Reset Password
                         </h1>
                         <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow w-96">
-                            
-                           
+
+
                             <div className="relative w-full">
                                 <input
                                     type={showPassword ? "text" : "password"}
@@ -90,12 +94,16 @@ export default function ResetPasswordPage() {
                                 </button>
                             </div>
                             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-                            
+
                             <button
                                 type="submit"
                                 className="mt-4 w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                             >
-                                Reset Password
+                                {loading ? (
+                                    <div className="flex items-center justify-center">
+                                        <div className="w-5 h-5 border-4 border-white border-t-transparent border-solid rounded-full animate-spin mx-auto"></div>
+                                    </div>
+                                ) : "Reset Password"}
                             </button>
                         </form>
                     </div>
