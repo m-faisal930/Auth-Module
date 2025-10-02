@@ -1,17 +1,15 @@
 
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import {toast, Bounce } from 'react-toastify';
 
 
 export default function Login() {
     const router = useRouter();
     const { setUser } = useAuth();
-    const [message, setMessage] = useState("");
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -41,11 +39,10 @@ export default function Login() {
                 theme: "light",
                 transition: Bounce,
             });
-            setMessage(data.message);
             setUser(data.user);
             router.push("/");
         } else {
-            setMessage(data.error || "Login failed");
+            toast.error(data.error || "Login failed")
         }
     }
 
@@ -102,7 +99,7 @@ export default function Login() {
                                 <div className="flex items-center justify-between">
 
                                     <Link
-                                        href="#"
+                                        href="/forgot-password"
                                         className="text-sm font-medium text-gray-600 hover:underline "
                                     >
                                         Forgot password?
