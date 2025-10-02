@@ -5,9 +5,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast, Bounce } from 'react-toastify';
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export default function Signup() {
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     function validate(values: { username: string; email: string; password: string }) {
         const newErrors: { [key: string]: string } = {};
@@ -86,7 +89,7 @@ export default function Signup() {
     }
 
     return (
-        <div className="bg-gray-50">
+        <div className="bg-gray-50 font-sans">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <Link
                     href="/"
@@ -142,21 +145,33 @@ export default function Signup() {
                                 >
                                     Password
                                 </label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-gray-600 focus:border-gray-600 block w-full p-2.5 "
-                                    required
-                                />
+                                <div className="relative w-full">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="password"
+                                        name="password"
+                                        id="password"
+                                        className="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-gray-600 focus:border-gray-600 block w-full p-2.5"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword((prev) => !prev)}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                    >
+                                        {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+                                    </button>
+
+                                </div>
                                 {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                             </div>
 
                             <button
 
                                 type="submit"
-                                className="w-full text-white bg-gray-600 hover:cursor-pointer hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                className="w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                             >
                                 Sign up
                             </button>

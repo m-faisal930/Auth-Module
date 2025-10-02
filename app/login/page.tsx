@@ -4,12 +4,16 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import {toast, Bounce } from 'react-toastify';
+import { toast, Bounce } from 'react-toastify';
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useState } from "react";
 
 
 export default function Login() {
     const router = useRouter();
     const { setUser } = useAuth();
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -87,14 +91,26 @@ export default function Login() {
                                     >
                                         Password
                                     </label>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        id="password"
-                                        placeholder="••••••••"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-gray-600 focus:border-gray-600 block w-full p-2.5 "
-                                        required
-                                    />
+                                    <div className="relative w-full">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="password"
+                                            name="password"
+                                            id="password"
+                                            className="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-gray-600 focus:border-gray-600 block w-full p-2.5"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword((prev) => !prev)}
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                        >
+                                            {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+                                        </button>
+
+                                    </div>
                                 </div>
                                 <div className="flex items-center justify-between">
 
