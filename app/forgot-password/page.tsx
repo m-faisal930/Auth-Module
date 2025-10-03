@@ -28,13 +28,14 @@ export default function ForgotPasswordPage() {
       });
 
       const data = await res.json();
+      console.log(data);
 
       if (res.ok) {
         setLoading(false);
       } else {
         setLoading(false);
       }
-    } catch (error) {
+    } catch  {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);

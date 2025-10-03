@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongoose";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { validatePassword } from "@/utils/validatePassword";
 import { verifyToken } from "@/utils/verifyToken";
 

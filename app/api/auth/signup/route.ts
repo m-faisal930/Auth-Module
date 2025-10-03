@@ -61,9 +61,9 @@ export async function POST(req: Request) {
       { message: "User created successfully", userId: user._id },
       { status: 201 }
     );
-  } catch (err: any) {
+  } catch  {
     return NextResponse.json(
-      { error: err.message || "Internal Server Error" },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }

@@ -52,7 +52,7 @@ export default function Login() {
       } else {
         toast.error(data.error || "Login failed");
       }
-    } catch (error) {
+    } catch  {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
