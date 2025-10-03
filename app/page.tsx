@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
@@ -21,8 +20,9 @@ export default function Home() {
   }
 
   return (
-    <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} min-h-screen p-8`}>
-
+    <div
+      className={`${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} min-h-screen p-8`}
+    >
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <button
@@ -33,16 +33,20 @@ export default function Home() {
         </button>
       </div>
 
-      <div className={`max-w-md mx-auto shadow-md rounded-xl p-6 ${darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-900"} `}>
+      <div
+        className={`max-w-md mx-auto shadow-md rounded-xl p-6 ${darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-900"} `}
+      >
         <div className="flex items-center space-x-4">
-
           <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold">
             {user?.username?.charAt(0).toUpperCase() || "U"}
           </div>
 
-
           <div>
-            <h2 className={`text-xl font-semibold ${darkMode ? "text-white": "text-gray-900"}`}>{user?.username || "User"}</h2>
+            <h2
+              className={`text-xl font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}
+            >
+              {user?.username || "User"}
+            </h2>
             <p className="text-gray-500 dark:text-gray-400">{user?.email}</p>
           </div>
         </div>
@@ -69,8 +73,9 @@ export default function Home() {
         </div>
       </div>
 
-
-      <div className={`max-w-md mx-auto mt-8 grid grid-cols-2 gap-4 ${darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-900"}`}>
+      <div
+        className={`max-w-md mx-auto mt-8 grid grid-cols-2 gap-4 ${darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-900"}`}
+      >
         <div className="p-4 rounded-lg shadow text-center ">
           <p className="text-sm ">Last Login</p>
           <p className="font-bold">Today</p>
