@@ -30,14 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
-          <AuthProvider>
         <ThemeProvider>
-            {children}
+          <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>
-          </AuthProvider>
-
-
 
         <ToastContainer
           position="top-right"
