@@ -34,8 +34,8 @@ export default function Signup() {
 
       const data = await res.json();
 
-      if (res.ok) {
-        toast.success("Signed up successfully!", {
+      if (data.success) {
+        toast.success(data.message || "Signed up successfully!", {
           position: "top-right",
           autoClose: 5000,
           theme: "light",
@@ -43,7 +43,7 @@ export default function Signup() {
         });
         router.push("/login");
       } else {
-        toast.error(data.error || "Something went wrong");
+        toast.error(data.error || data.message || "Something went wrong");
       }
     } catch  {
       toast.error("Something went wrong");

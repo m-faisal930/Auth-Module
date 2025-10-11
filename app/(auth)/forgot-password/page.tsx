@@ -28,12 +28,11 @@ export default function ForgotPasswordPage() {
       });
 
       const data = await res.json();
-      console.log(data);
 
-      if (res.ok) {
-        setLoading(false);
+      if (data.success) {
+        toast.success(data.message || "Reset link sent to your email");
       } else {
-        setLoading(false);
+        toast.error(data.error || data.message || "Something went wrong");
       }
     } catch  {
       toast.error("Something went wrong");

@@ -35,8 +35,8 @@ export default function Login() {
 
       const data = await res.json();
 
-      if (data.message) {
-        toast.success("Logged in successfully!", {
+      if (data.success) {
+        toast.success(data.message || "Logged in successfully!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -47,10 +47,10 @@ export default function Login() {
           theme: "light",
           transition: Bounce,
         });
-        setUser(data.user);
+        setUser(data.data.user);
         router.push("/");
       } else {
-        toast.error(data.error || "Login failed");
+        toast.error(data.error || data.message || "Login failed");
       }
     } catch  {
       toast.error("Something went wrong");

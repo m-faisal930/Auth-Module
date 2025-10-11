@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { createSuccessResponse } from "@/utils/apiResponse";
 
 export async function GET(req: Request) {
   const cookieHeader = req.headers.get("cookie");
   const token = cookieHeader?.split("token=")[1]?.split(";")[0];
 
-  if (!token) return NextResponse.json({ user: null });
+  if (!token) return createSuccessResponse("User not authenticated", { user: null });
 
   interface MyJwtPayload {
     id: string;
@@ -13,14 +14,13 @@ export async function GET(req: Request) {
     iat: number;
     exp: number;
   }
-  let decoded = new Object() as MyJwtPayload;
 
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET!) as MyJwtPayload;
-    return NextResponse.json({
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as MyJwtPayload;
+    return createSuccessResponse("User authenticated", {
       user: { id: decoded.id, email: decoded.email },
     });
   } catch {
-    return NextResponse.json({ user: null });
+    return createSuccessResponse("Invalid token", { user: null });
   }
 }

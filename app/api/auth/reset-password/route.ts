@@ -4,51 +4,49 @@ import User from "@/models/User";
 import { connectDB } from "@/lib/mongoose";
 import { validatePassword } from "@/utils/validatePassword";
 import { verifyToken } from "@/utils/verifyToken";
+import {
+  createSuccessResponse,
+  createErrorResponse,
+  createUnauthorizedResponse,
+  createNotFoundResponse,
+  createServerErrorResponse,
+} from "@/utils/apiResponse";
 
 export async function POST(req: Request) {
   try {
     await connectDB();
     const { token, password } = await req.json();
 
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: "password must be at least 6 characters long" },
-        { status: 400 }
-      );
+    if (!password || password.length < 6) {
+      return createErrorResponse("Password must be at least 6 characters long", 400);
     }
 
-    const error = validatePassword(password);
-    if (error) {
-      return NextResponse.json({ error }, { status: 400 });
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      return createErrorResponse(passwordError, 400);
     }
 
     const { payload, tokenError, status } = verifyToken(token);
 
     if (tokenError) {
-      return NextResponse.json({ error: tokenError }, { status });
+      return createErrorResponse(tokenError, status || 401);
     }
 
     if (!payload) {
-      return NextResponse.json(
-        { error: "Token verification failed" },
-        { status: 401 }
-      );
+      return createUnauthorizedResponse("Token verification failed");
     }
+
     const user = await User.findById(payload.id);
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return createNotFoundResponse("User not found");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
     await user.save();
 
-    return NextResponse.json({ message: "Password reset successful" });
+    return createSuccessResponse("Password reset successful");
   } catch (err) {
-    console.error(err);
-    return NextResponse.json(
-      { error: "Invalid or expired token" },
-      { status: 400 }
-    );
+    return createServerErrorResponse("Failed to reset password", err);
   }
 }

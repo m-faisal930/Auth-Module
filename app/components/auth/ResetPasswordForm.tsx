@@ -34,8 +34,8 @@ export default function ResetPasswordPage() {
 
       const data = await res.json();
 
-      if (res.ok) {
-        toast.success("Password reset successful! Redirecting to login...", {
+      if (data.success) {
+        toast.success(data.message || "Password reset successful! Redirecting to login...", {
           position: "top-right",
           autoClose: 5000,
           theme: "light",
@@ -43,7 +43,7 @@ export default function ResetPasswordPage() {
         });
         setTimeout(() => router.push("/login"), 2000);
       } else {
-        toast.error(data.error || "Something went wrong");
+        toast.error(data.error || data.message || "Something went wrong");
       }
     } catch  {
       toast.error("Something went wrong");
