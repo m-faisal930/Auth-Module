@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <div
-      className={`${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} min-h-screen p-8`}
+      className={`${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} min-h-screen p-8 font-sans`}
     >
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Dashboard</h1>
@@ -70,6 +70,8 @@ export default function Home() {
           >
             Logout
           </button>
+
+
         </div>
       </div>
 

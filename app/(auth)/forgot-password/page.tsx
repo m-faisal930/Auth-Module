@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
 
 type FormValues = {
   email: string;
@@ -76,9 +77,10 @@ export default function ForgotPasswordPage() {
                 <p className="text-red-500 text-sm">{errors.email.message}</p>
               )}
               <br />
-              <button
+              <Button
                 type="submit"
                 className="w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                disabled={loading}
               >
                 {loading ? (
                   <div className="flex items-center justify-center">
@@ -87,7 +89,7 @@ export default function ForgotPasswordPage() {
                 ) : (
                   "Send Reset Link"
                 )}
-              </button>
+              </Button>
             </form>
           </div>
         </div>

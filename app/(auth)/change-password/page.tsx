@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 
 type FormValues = {
   oldPassword: string;
@@ -160,9 +161,10 @@ export default function ChangePasswordPage() {
                   )}
                 </div>
                 <div className="flex items-center justify-between"></div>
-                <button
+                <Button
                   type="submit"
                   className="w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  disabled={loading}
                 >
                   {loading ? (
                     <div className="flex items-center justify-center">
@@ -171,7 +173,7 @@ export default function ChangePasswordPage() {
                   ) : (
                     "Change Password"
                   )}
-                </button>
+                </Button>
               </form>
             </div>
           </div>

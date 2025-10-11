@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast, Bounce } from "react-toastify";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 
 type FormValues = {
   username: string;
@@ -171,9 +172,10 @@ export default function Signup() {
                 )}
               </div>
 
-              <button
+              <Button
                 type="submit"
                 className="w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                disabled={loading}
               >
                 {loading ? (
                   <div className="flex items-center justify-center">
@@ -182,7 +184,7 @@ export default function Signup() {
                 ) : (
                   "Create an account"
                 )}
-              </button>
+              </Button>
 
               <p className="text-sm font-light text-gray-500">
                 Already have account?{" "}

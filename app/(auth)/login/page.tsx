@@ -7,6 +7,7 @@ import { toast, Bounce } from "react-toastify";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 
 type FormValues = {
   email: string;
@@ -147,16 +148,17 @@ export default function Login() {
                     Forgot password?
                   </Link>
                 </div>
-                <button
+                <Button
                   type="submit"
-                  className="w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                  className="w-full text-white bg-gray-900 hover:bg-gray-700 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  disabled={loading}
                 >
                   {loading ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
                   ) : (
                     "Sign In"
                   )}
-                </button>
+                </Button>
                 <p className="text-sm font-light text-gray-500">
                   Don&apos;t have an account yet?{" "}
                   <Link
