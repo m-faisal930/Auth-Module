@@ -6,34 +6,50 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
 
-  const publicRoutes = ["/login", "/signup", "/forgot-password", "/reset-password"];
 
 
-  if (!token && !publicRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
 
+  const authRoutes = ["/login", "/signup"];
 
-  if (token) {
+  if (pathname.startsWith("/admin")) {
+
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+
     try {
       jwt.verify(token, process.env.JWT_SECRET!);
     } catch {
+
       const res = NextResponse.redirect(new URL("/login", req.url));
       res.cookies.delete("token");
       return res;
     }
+  }
 
 
-    if (publicRoutes.includes(pathname)) {
+  if (token && authRoutes.includes(pathname)) {
+    try {
+      jwt.verify(token, process.env.JWT_SECRET!);
       return NextResponse.redirect(new URL("/", req.url));
+    } catch {
+
+      const res = NextResponse.next();
+      res.cookies.delete("token");
+      return res;
     }
   }
+
 
   return NextResponse.next();
 }
 
 
 export const config = {
-  matcher: ["/((?!_next|api|static|favicon.ico).*)"],
-   runtime: "nodejs", 
+  matcher: [
+    "/admin/:path*",
+    "/login",       
+    "/signup",       
+  ],
+  runtime: "nodejs",
 };
