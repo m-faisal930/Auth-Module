@@ -1,9 +1,9 @@
 import { connectDB } from "@/lib/mongoose";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
-import { validatePassword } from "@/utils/ValidatePassword";
-import { verifyToken } from "@/utils/VerifyToken";
-import { apiResponse } from "@/utils/ApiResponse";
+import { validatePassword } from "../../../../utils/validatePassword";
+import { verifyToken } from "../../../../utils/verifyToken";
+import { apiResponse } from "../../../../utils/apiResponse";
 
 export async function PUT(req: Request) {
   try {

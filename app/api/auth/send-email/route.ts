@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";import User from "@/models/User";
 import { connectDB } from "@/lib/mongoose";
 import { Resend } from "resend";
-import { apiResponse } from "@/utils/ApiResponse";
+import { apiResponse } from "../../../../utils/apiResponse";
 
 export async function POST(req: Request) {
   const resend = new Resend(process.env.RESEND_API_KEY!);

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { apiResponse } from "@/utils/ApiResponse";
+import { apiResponse } from "../../../../utils/apiResponse";
 
 export async function GET(req: Request) {
   const cookieHeader = req.headers.get("cookie");

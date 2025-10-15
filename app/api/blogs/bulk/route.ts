@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/mongoose";
 import Blog from "@/models/Blog";
-import { apiResponse } from "@/utils/ApiResponse";
+import { apiResponse } from "../../../../utils/apiResponse";
 import { authenticateUser } from "@/utils/AuthMiddleware";
 import { z } from "zod";
 import { validateBlogData } from "@/schemas/blog";

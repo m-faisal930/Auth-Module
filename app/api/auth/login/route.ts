@@ -2,7 +2,7 @@ import { connectDB } from "@/lib/mongoose";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { apiResponse } from "@/utils/ApiResponse";
+import { apiResponse } from "../../../../utils/apiResponse";
 
 export async function POST(req: Request) {
   try {

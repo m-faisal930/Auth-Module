@@ -1,4 +1,4 @@
-import { apiResponse } from "@/utils/ApiResponse";
+import { apiResponse } from "../../../../utils/apiResponse";
 
 export async function POST() {
   const response = apiResponse({ success: true, message: "Logged out successfully" });

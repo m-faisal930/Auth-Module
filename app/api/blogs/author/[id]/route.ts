@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/mongoose";
 import Blog from "@/models/Blog";
 import User from "@/models/User";
-import { apiResponse } from "@/utils/ApiResponse";
+import { apiResponse } from "../../../../../utils/apiResponse";
 import { blogQuerySchema, validateBlogData } from "@/schemas/blog";
 
 export async function GET(

@@ -1,8 +1,8 @@
 import { connectDB } from "@/lib/mongoose";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
-import { validatePassword } from "@/utils/ValidatePassword";
-import { apiResponse } from "@/utils/ApiResponse";
+import { validatePassword } from "../../../../utils/validatePassword";
+import { apiResponse } from "../../../../utils/apiResponse";
 
 export async function POST(req: Request) {
   try {
