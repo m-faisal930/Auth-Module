@@ -24,9 +24,9 @@ import {
 import { toast } from "react-toastify";
 import { formatSafeDate } from "@/utils/DateUtils";
 import { BlogList } from "@/components/blog/BlogList";
-import { Textarea } from "@/components/ui/textarea";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { Comments } from "@/components/blog/Comments";
 
 interface BlogPost {
   _id: string;
@@ -215,19 +215,10 @@ export default function BlogDetailPage() {
             {blog.content}
           </div>
 
+          <Comments blogId={blog._id} />
+
           <footer className="mt-12 pt-6 border-t flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-            <div className="w-full sm:w-2/3">
-              <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-                <MessageSquare className="h-5 w-5" />
-                Leave a Comment
-              </h3>
-              <Textarea
-                placeholder="Write your thoughts about this post..."
-                className="min-h-[100px] resize-none"
-              />
-              <Button className="mt-3">Post Comment</Button>
-            </div>
-            <div className="flex flex-col items-start sm:items-end w-full sm:w-1/3">
+            <div className="flex flex-col items-start sm:items-end w-full">
               <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
                 <Share2 className="h-5 w-5" />
                 Share this post
