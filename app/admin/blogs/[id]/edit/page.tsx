@@ -45,10 +45,10 @@ export default function EditBlogPage() {
       try {
         setIsLoading(true);
         setError(null);
-        
+
         const response = await fetch(`/api/blogs/${params.id}`);
         const data = await response.json();
-        
+
         if (data.success) {
           setBlog(data.data.blog);
         } else {
@@ -67,11 +67,10 @@ export default function EditBlogPage() {
     }
   }, [params.id]);
 
-
   const handleSubmit = async (data: BlogFormData) => {
     try {
       setIsSubmitting(true);
-      
+
       const response = await fetch(`/api/blogs/${params.id}`, {
         method: "PUT",
         headers: {
@@ -79,9 +78,9 @@ export default function EditBlogPage() {
         },
         body: JSON.stringify(data),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         toast.success(
           `Blog ${data.status === "published" ? "published" : "updated"} successfully!`
@@ -108,7 +107,7 @@ export default function EditBlogPage() {
             <Skeleton className="h-4 w-48" />
           </div>
         </div>
-        
+
         <div className="max-w-4xl mx-auto space-y-6">
           <Skeleton className="h-12 w-full" />
           <Skeleton className="h-32 w-full" />
@@ -130,15 +129,15 @@ export default function EditBlogPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Edit Blog Post</h1>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Edit Blog Post
+            </h1>
           </div>
         </div>
-        
+
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {error || "Blog post not found"}
-          </AlertDescription>
+          <AlertDescription>{error || "Blog post not found"}</AlertDescription>
         </Alert>
       </div>
     );
@@ -146,7 +145,6 @@ export default function EditBlogPage() {
 
   return (
     <div className="space-y-6">
-
       <div className="flex items-center gap-4">
         <Button variant="ghost" asChild>
           <Link href="/admin/blogs">
