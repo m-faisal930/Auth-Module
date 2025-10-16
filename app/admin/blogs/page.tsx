@@ -7,7 +7,7 @@ import { BlogPagination } from "@/components/blog/BlogPagination";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -17,9 +17,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Plus, Trash2, Edit, Eye } from "lucide-react";
+import { Plus, Trash2, Edit, MoreHorizontal } from "lucide-react";
 import { toast } from "react-toastify";
 
 interface Blog {
@@ -70,24 +76,22 @@ export default function AdminBlogsPage() {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       const params = new URLSearchParams();
       const page = searchParams.get("page") || "1";
       const search = searchParams.get("search");
       const tag = searchParams.get("tag");
       const sortBy = searchParams.get("sortBy") || "newest";
-      
+
       params.append("page", page);
       params.append("limit", "12");
-
-      
       if (search) params.append("search", search);
       if (tag) params.append("tag", tag);
       if (sortBy) params.append("sortBy", sortBy);
-      
+
       const response = await fetch(`/api/blogs?${params.toString()}`);
       const data: BlogsResponse = await response.json();
-      
+
       if (data.success) {
         setBlogs(data.data.blogs);
         setTotalBlogs(data.data.totalBlogs);
@@ -120,16 +124,14 @@ export default function AdminBlogsPage() {
 
   const confirmDelete = async () => {
     if (!blogToDelete) return;
-    
+
     try {
       setDeletingBlogId(blogToDelete._id);
-      
       const response = await fetch(`/api/blogs/${blogToDelete._id}`, {
         method: "DELETE",
       });
-      
       const data = await response.json();
-      
+
       if (data.success) {
         toast.success("Blog deleted successfully!");
         fetchBlogs();
@@ -148,14 +150,13 @@ export default function AdminBlogsPage() {
 
   const stats = {
     total: totalBlogs,
-    published: blogs.filter(blog => blog.status === "published").length,
-    drafts: blogs.filter(blog => blog.status === "draft").length,
+    published: blogs.filter((blog) => blog.status === "published").length,
+    drafts: blogs.filter((blog) => blog.status === "draft").length,
   };
 
   return (
     <div className="space-y-8">
-
-      <div className="flex items-center justify-between">
+         <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Blog Management</h1>
           <p className="text-muted-foreground">
@@ -169,8 +170,6 @@ export default function AdminBlogsPage() {
           </Link>
         </Button>
       </div>
-
-
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="pb-3">
@@ -185,7 +184,9 @@ export default function AdminBlogsPage() {
             <CardTitle className="text-sm font-medium">Published</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{stats.published}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {stats.published}
+            </div>
           </CardContent>
         </Card>
         <Card>
@@ -193,15 +194,13 @@ export default function AdminBlogsPage() {
             <CardTitle className="text-sm font-medium">Drafts</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">{stats.drafts}</div>
+            <div className="text-2xl font-bold text-orange-600">
+              {stats.drafts}
+            </div>
           </CardContent>
         </Card>
       </div>
-
-
       <BlogFilters availableTags={availableTags} />
-
-
       <div className="space-y-6">
         {isLoading ? (
           <BlogList blogs={[]} isLoading={true} />
@@ -213,13 +212,49 @@ export default function AdminBlogsPage() {
               <Card key={blog._id} className="h-full flex flex-col">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between gap-3">
-                    <CardTitle className="text-lg font-semibold line-clamp-2 leading-tight">
+                    <Link
+                      href={`/${blog.slug}`}
+                      target="_blank"
+                      className="text-lg font-semibold line-clamp-2 leading-tight hover:text-primary transition-colors"
+                    >
                       {blog.title}
-                    </CardTitle>
-                    <div className="flex gap-1">
-                      <Badge variant={blog.status === "published" ? "default" : "secondary"}>
+                    </Link>
+
+
+                    <div className="flex items-center gap-3">
+                      <Badge
+                        variant={
+                          blog.status === "published" ? "default" : "secondary"
+                        }
+                      >
                         {blog.status}
                       </Badge>
+
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                          >
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-36">
+                          <DropdownMenuItem
+                            onClick={() => handleEdit(blog)}
+                            className="cursor-pointer"
+                          >
+                            <Edit className="h-4 w-4 mr-2" /> Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleDelete(blog)}
+                            className="cursor-pointer text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" /> Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
                 </CardHeader>
@@ -228,61 +263,29 @@ export default function AdminBlogsPage() {
                   <p className="text-muted-foreground mb-4 line-clamp-3 flex-1">
                     {blog.excerpt}
                   </p>
-                  
+
                   <div className="flex flex-wrap gap-2 mb-4">
                     {blog.tags.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs">
+                      <Badge key={tag} variant="secondary" className="text-xs">
                         {tag}
                       </Badge>
                     ))}
                     {blog.tags.length > 2 && (
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="secondary" className="text-xs">
                         +{blog.tags.length - 2}
                       </Badge>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+                  <div className="flex items-center justify-between text-sm text-muted-foreground mt-auto">
                     <span>{blog.readingTime} min read</span>
                     <span>{blog.viewCount} views</span>
-                  </div>
-
-                  <div className="flex gap-2 pt-2 border-t">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleEdit(blog)}
-                      className="flex-1"
-                    >
-                      <Edit className="h-4 w-4 mr-1" />
-                      Edit
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      asChild
-                      className="flex-1"
-                    >
-                      <Link href={`/${blog.slug}`} target="_blank">
-                        <Eye className="h-4 w-4 mr-1" />
-                        View
-                      </Link>
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => handleDelete(blog)}
-                      disabled={deletingBlogId === blog._id}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
         )}
-
         {blogs.length === 0 && !isLoading && !error && (
           <div className="text-center py-12">
             <div className="mx-auto max-w-md">
@@ -320,8 +323,9 @@ export default function AdminBlogsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the blog post
-              &quot;{blogToDelete?.title}&quot; and remove it from the servers.
+              This action cannot be undone. This will permanently delete the blog
+              post &quot;{blogToDelete?.title}&quot; and remove it from the
+              servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
