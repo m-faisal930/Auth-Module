@@ -17,6 +17,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { 
   LayoutDashboard, 
   FileText, 
@@ -75,15 +76,12 @@ export function AdminSidebar() {
 
   return (
     <Sidebar className="w-64">
-      <SidebarHeader className="p-6">
+      <SidebarHeader className="">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <FileText className="h-4 w-4" />
-          </div>
-          <div>
-            <h2 className="text-lg font-semibold">BlogSpace</h2>
-            <p className="text-xs text-muted-foreground">Admin Panel</p>
-          </div>
+
+            <Image src="/logo.png" alt="logo" width={200} height={150} />
+
+
         </div>
       </SidebarHeader>
 
