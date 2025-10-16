@@ -45,7 +45,7 @@ export function BlogCard({
   onDelete,
 }: BlogCardProps) {
   return (
-    <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-300">
+    <Card className="h-full flex flex-col hover:shadow-xl shadow-lg transition-shadow duration-300">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <CardTitle className="text-xl font-semibold line-clamp-2 leading-tight">
@@ -61,6 +61,7 @@ export function BlogCard({
               Draft
             </Badge>
           )}
+
         </div>
 
         {showAuthor && (
@@ -85,12 +86,12 @@ export function BlogCard({
         <div className="flex flex-wrap gap-2 mb-4">
           {blog.tags &&
             blog.tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="outline" className="text-xs">
+              <Badge key={tag} variant="secondary" className="text-xs">
                 {tag}
               </Badge>
             ))}
           {blog.tags && blog.tags.length > 3 && (
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="secondary" className="text-xs">
               +{blog.tags.length - 3} more
             </Badge>
           )}
