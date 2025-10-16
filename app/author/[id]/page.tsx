@@ -12,7 +12,14 @@ import { BlogFilters } from "@/components/blog/BlogFilters";
 import { BlogPagination } from "@/components/blog/BlogPagination";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { User, Mail, Calendar, MessageCircle, UserPlus, AlertCircle } from "lucide-react";
+import {
+  User,
+  Mail,
+  Calendar,
+  MessageCircle,
+  UserPlus,
+  AlertCircle,
+} from "lucide-react";
 import { formatSafeDate } from "@/utils/DateUtils";
 
 interface AuthorData {
@@ -66,8 +73,10 @@ export default function AuthorProfilePage() {
       setIsLoading(true);
       setError(null);
 
-      const url = new URL(`/api/blogs/author/${authorId}`, window.location.origin);
-      
+      const url = new URL(
+        `/api/blogs/author/${authorId}`,
+        window.location.origin
+      );
 
       const currentParams = new URLSearchParams(window.location.search);
       currentParams.forEach((value, key) => {
@@ -89,7 +98,6 @@ export default function AuthorProfilePage() {
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     const handleUrlChange = () => {
@@ -135,7 +143,9 @@ export default function AuthorProfilePage() {
         <main className="flex-1 container mx-auto px-4 py-8">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error || "Failed to load author profile"}</AlertDescription>
+            <AlertDescription>
+              {error || "Failed to load author profile"}
+            </AlertDescription>
           </Alert>
         </main>
         <Footer />
@@ -143,26 +153,24 @@ export default function AuthorProfilePage() {
     );
   }
 
-  const { author, blogs, totalBlogs, totalPages, currentPage, availableTags } = data;
+  const { author, blogs, totalBlogs, totalPages, currentPage, availableTags } =
+    data;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
-      <main className="flex-1 container mx-auto px-4 py-8">
 
+      <main className="flex-1 container mx-auto px-4 py-8 mt-30">
         <Card className="mb-8">
           <CardHeader>
             <div className="flex flex-col md:flex-row items-start gap-6">
-
               <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary text-primary-foreground shrink-0">
                 <User className="h-12 w-12" />
               </div>
 
-
               <div className="flex-1 min-w-0">
                 <h1 className="text-3xl font-bold mb-2">{author.username}</h1>
-                
+
                 <div className="flex flex-wrap gap-4 text-muted-foreground mb-4">
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4" />
@@ -182,7 +190,6 @@ export default function AuthorProfilePage() {
                   </Badge>
                 </div>
 
-
                 <div className="flex flex-wrap gap-3">
                   <Button variant="default" className="gap-2">
                     <UserPlus className="h-4 w-4" />
@@ -198,7 +205,6 @@ export default function AuthorProfilePage() {
           </CardHeader>
         </Card>
 
-
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold">
@@ -206,9 +212,7 @@ export default function AuthorProfilePage() {
             </h2>
           </div>
 
-
           <BlogFilters availableTags={availableTags} />
-
 
           {blogs.length > 0 ? (
             <>
@@ -218,7 +222,6 @@ export default function AuthorProfilePage() {
                 showAuthor={false}
                 emptyMessage={`${author.username} hasn't published any posts yet.`}
               />
-
 
               <BlogPagination
                 currentPage={currentPage}
@@ -249,4 +252,3 @@ export default function AuthorProfilePage() {
     </div>
   );
 }
-
