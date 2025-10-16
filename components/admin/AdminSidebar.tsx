@@ -25,7 +25,8 @@ import {
   User, 
   LogOut,
   ChevronRight,
-  Home
+  Home,
+  MessageSquare
 } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useState } from "react";
@@ -49,6 +50,11 @@ const navigation = [
         href: "/admin/blogs/new",
       },
     ],
+  },
+  {
+    title: "Comments",
+    href: "/admin/comments",
+    icon: MessageSquare,
   },
   {
     title: "Settings",
