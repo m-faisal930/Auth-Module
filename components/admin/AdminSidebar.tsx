@@ -1,34 +1,37 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { 
-  Sidebar, 
-  SidebarContent, 
-  SidebarFooter, 
-  SidebarHeader, 
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSubItem
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Settings, 
-  User, 
+import {
+  LayoutDashboard,
+  FileText,
+  Settings,
+  User,
   LogOut,
   ChevronRight,
-  Home,
-  MessageSquare
+  MessageSquare,
 } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useState } from "react";
 
 const navigation = [
@@ -69,9 +72,9 @@ export function AdminSidebar() {
   const [openItems, setOpenItems] = useState<string[]>(["Blogs"]);
 
   const toggleItem = (title: string) => {
-    setOpenItems(prev => 
-      prev.includes(title) 
-        ? prev.filter(item => item !== title)
+    setOpenItems((prev) =>
+      prev.includes(title)
+        ? prev.filter((item) => item !== title)
         : [...prev, title]
     );
   };
@@ -84,10 +87,9 @@ export function AdminSidebar() {
     <Sidebar className="w-64">
       <SidebarHeader className="">
         <div className="flex items-center gap-2">
-
+          <Link href={"/"}>
             <Image src="/logo.png" alt="logo" width={200} height={150} />
-
-
+          </Link>
         </div>
       </SidebarHeader>
 
@@ -95,13 +97,10 @@ export function AdminSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/" className="flex items-center gap-2">
-                <Home className="h-4 w-4" />
-                <span>Back to Site</span>
-              </Link>
+
             </SidebarMenuButton>
           </SidebarMenuItem>
-          
+
           {navigation.map((item) => (
             <SidebarMenuItem key={item.title}>
               {item.items ? (
@@ -113,11 +112,11 @@ export function AdminSidebar() {
                     <SidebarMenuButton>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
-                      <ChevronRight 
+                      <ChevronRight
                         className={cn(
                           "ml-auto h-4 w-4 transition-transform",
                           openItems.includes(item.title) && "rotate-90"
-                        )} 
+                        )}
                       />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
@@ -125,13 +124,11 @@ export function AdminSidebar() {
                     <SidebarMenuSub>
                       {item.items.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.href}>
-                          <SidebarMenuSubButton 
+                          <SidebarMenuSubButton
                             asChild
                             isActive={pathname === subItem.href}
                           >
-                            <Link href={subItem.href}>
-                              {subItem.title}
-                            </Link>
+                            <Link href={subItem.href}>{subItem.title}</Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
@@ -139,10 +136,7 @@ export function AdminSidebar() {
                   </CollapsibleContent>
                 </Collapsible>
               ) : (
-                <SidebarMenuButton 
-                  asChild
-                  isActive={pathname === item.href}
-                >
+                <SidebarMenuButton asChild isActive={pathname === item.href}>
                   <Link href={item.href} className="flex items-center gap-2">
                     <item.icon className="h-4 w-4" />
                     <span>{item.title}</span>
@@ -162,13 +156,15 @@ export function AdminSidebar() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">{user?.username}</p>
-              <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+              <p className="text-xs text-muted-foreground truncate">
+                {user?.email}
+              </p>
             </div>
           </div>
-          
-          <Button 
-            variant="outline" 
-            size="sm" 
+
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleLogout}
             className="w-full"
           >
