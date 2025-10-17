@@ -69,7 +69,7 @@ export async function GET(req: NextRequest) {
         }
       }
     });
-  } catch (error) {
+  } catch  {
     return apiResponse({
       success: false,
       message: "Failed to retrieve comments",
@@ -120,7 +120,7 @@ export async function DELETE(req: NextRequest) {
       success: true,
       message: "Comment deleted successfully"
     });
-  } catch (error) {
+  } catch {
     return apiResponse({
       success: false,
       message: "Failed to delete comment",
