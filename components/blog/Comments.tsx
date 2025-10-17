@@ -48,7 +48,7 @@ export function Comments({ blogId }: CommentsProps) {
       } else {
         setError(data.message || "Failed to load comments");
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred while loading comments");
     } finally {
       setIsLoading(false);
@@ -96,7 +96,7 @@ export function Comments({ blogId }: CommentsProps) {
       } else {
         toast.error(data.message || "Failed to add comment");
       }
-    } catch (err) {
+    } catch  {
       toast.error("An error occurred while adding comment");
     } finally {
       setIsSubmitting(false);
@@ -121,7 +121,7 @@ export function Comments({ blogId }: CommentsProps) {
       } else {
         toast.error(data.message || "Failed to delete comment");
       }
-    } catch (err) {
+    } catch {
       toast.error("An error occurred while deleting comment");
     }
   };
