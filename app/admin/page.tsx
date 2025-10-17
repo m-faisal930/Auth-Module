@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { FileText, Plus, Eye, Clock, TrendingUp } from "lucide-react";
 
 interface DashboardStats {
@@ -51,7 +52,6 @@ export default function AdminDashboard() {
         setIsLoading(true);
         setError(null);
 
-
         const response = await fetch("/api/blogs?limit=5&sortBy=newest");
         const data = await response.json();
 
@@ -59,12 +59,21 @@ export default function AdminDashboard() {
           const blogs = data.data.blogs;
           setRecentBlogs(blogs);
 
-
           const totalBlogs = data.data.totalBlogs || 0;
-          const publishedBlogs = blogs.filter((blog: RecentBlog) => blog.status === "published").length;
-          const draftBlogs = blogs.filter((blog: RecentBlog) => blog.status === "draft").length;
-          const totalViews = blogs.reduce((sum: number, blog: RecentBlog) => sum + blog.viewCount, 0);
-          const totalReadingTime = blogs.reduce((sum: number, blog: RecentBlog) => sum + blog.readingTime, 0);
+          const publishedBlogs = blogs.filter(
+            (blog: RecentBlog) => blog.status === "published"
+          ).length;
+          const draftBlogs = blogs.filter(
+            (blog: RecentBlog) => blog.status === "draft"
+          ).length;
+          const totalViews = blogs.reduce(
+            (sum: number, blog: RecentBlog) => sum + blog.viewCount,
+            0
+          );
+          const totalReadingTime = blogs.reduce(
+            (sum: number, blog: RecentBlog) => sum + blog.readingTime,
+            0
+          );
 
           setStats({
             totalBlogs,
@@ -89,7 +98,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8 font-sans">
-
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -104,7 +112,6 @@ export default function AdminDashboard() {
           </Link>
         </Button>
       </div>
-
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
@@ -126,7 +133,9 @@ export default function AdminDashboard() {
             <Eye className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalViews.toLocaleString()}</div>
+            <div className="text-2xl font-bold">
+              {stats.totalViews.toLocaleString()}
+            </div>
             <p className="text-xs text-muted-foreground">
               Across all published posts
             </p>
@@ -139,7 +148,9 @@ export default function AdminDashboard() {
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalReadingTime} min</div>
+            <div className="text-2xl font-bold">
+              {stats.totalReadingTime} min
+            </div>
             <p className="text-xs text-muted-foreground">
               Total content created
             </p>
@@ -153,15 +164,14 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {stats.publishedBlogs > 0 ? Math.round(stats.totalViews / stats.publishedBlogs) : 0}
+              {stats.publishedBlogs > 0
+                ? Math.round(stats.totalViews / stats.publishedBlogs)
+                : 0}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Per published post
-            </p>
+            <p className="text-xs text-muted-foreground">Per published post</p>
           </CardContent>
         </Card>
       </div>
-
 
       <Card>
         <CardHeader>
@@ -169,39 +179,62 @@ export default function AdminDashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
-            <Button asChild variant="outline" className="justify-start h-auto p-4">
-              <Link href="/admin/blogs/new" className="flex flex-col items-start gap-2">
+            <Button
+              asChild
+              variant="outline"
+              className="justify-start h-auto p-4"
+            >
+              <Link
+                href="/admin/blogs/new"
+                className="flex flex-col items-start gap-2"
+              >
                 <Plus className="h-5 w-5" />
                 <div>
                   <div className="font-medium">Create New Blog</div>
-                  <div className="text-sm text-muted-foreground">Write a new blog post</div>
+                  <div className="text-sm text-muted-foreground">
+                    Write a new blog post
+                  </div>
                 </div>
               </Link>
             </Button>
 
-            <Button asChild variant="outline" className="justify-start h-auto p-4">
-              <Link href="/admin/blogs" className="flex flex-col items-start gap-2">
+            <Button
+              asChild
+              variant="outline"
+              className="justify-start h-auto p-4"
+            >
+              <Link
+                href="/admin/blogs"
+                className="flex flex-col items-start gap-2"
+              >
                 <FileText className="h-5 w-5" />
                 <div>
                   <div className="font-medium">Manage Blogs</div>
-                  <div className="text-sm text-muted-foreground">Edit existing posts</div>
+                  <div className="text-sm text-muted-foreground">
+                    Edit existing posts
+                  </div>
                 </div>
               </Link>
             </Button>
 
-            <Button asChild variant="outline" className="justify-start h-auto p-4">
+            <Button
+              asChild
+              variant="outline"
+              className="justify-start h-auto p-4"
+            >
               <Link href="/" className="flex flex-col items-start gap-2">
                 <Eye className="h-5 w-5" />
                 <div>
                   <div className="font-medium">View Public Site</div>
-                  <div className="text-sm text-muted-foreground">See how visitors see your blog</div>
+                  <div className="text-sm text-muted-foreground">
+                    See how visitors see your blog
+                  </div>
                 </div>
               </Link>
             </Button>
           </div>
         </CardContent>
       </Card>
-
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
@@ -228,38 +261,51 @@ export default function AdminDashboard() {
           ) : recentBlogs.length > 0 ? (
             <div className="space-y-4">
               {recentBlogs.slice(0, 5).map((blog) => (
-                <div key={blog._id} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-medium line-clamp-1">{blog.title}</h3>
-                      <Badge variant={blog.status === "published" ? "default" : "secondary"}>
-                        {blog.status}
-                      </Badge>
+                <motion.div
+                  key={blog._id}
+                  whileHover={{ scale: 1.01 }}
+                  className="transition-all"
+                >
+                  <div className="flex items-center justify-between p-4 border rounded-lg hover:shadow-md shadow-md transition-shadow duration-300">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-medium line-clamp-1">
+                          {blog.title}
+                        </h3>
+                        <Badge
+                          variant={
+                            blog.status === "published"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
+                          {blog.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
+                        {blog.excerpt}
+                      </p>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <Clock className="h-4 w-4" />
+                        <span>{blog.readingTime} min read</span>
+                        <Eye className="h-4 w-4" />
+                        <span>{blog.viewCount} views</span>
+
+                        <span>
+                          {new Date(blog.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
-                      {blog.excerpt}
-                    </p>
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      <span>{blog.readingTime} min read</span>
-                      <span>{blog.viewCount} views</span>
-                      <span>
-                        {new Date(blog.createdAt).toLocaleDateString()}
-                      </span>
+                    <div className="flex gap-2 ml-4">
+                      <Button asChild size="sm" variant="outline">
+                        <Link href={`/admin/blogs/${blog._id}/edit`}>Edit</Link>
+                      </Button>
+                      <Button asChild size="sm" variant="outline">
+                        <Link href={`/${blog.slug}`}>View</Link>
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex gap-2 ml-4">
-                    <Button asChild size="sm" variant="outline">
-                      <Link href={`/admin/blogs/${blog._id}/edit`}>
-                        Edit
-                      </Link>
-                    </Button>
-                    <Button asChild size="sm" variant="outline">
-                      <Link href={`/${blog.slug}`}>
-                        View
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           ) : (
