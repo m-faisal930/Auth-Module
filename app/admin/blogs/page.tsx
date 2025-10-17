@@ -7,6 +7,7 @@ import { BlogPagination } from "@/components/blog/BlogPagination";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,7 +26,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Plus, Trash2, Edit, MoreHorizontal } from "lucide-react";
+import { Plus, Trash2, Edit, Eye, Clock, MoreVertical } from "lucide-react";
 import { toast } from "react-toastify";
 
 interface Blog {
@@ -156,7 +157,7 @@ export default function AdminBlogsPage() {
 
   return (
     <div className="space-y-8">
-         <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Blog Management</h1>
           <p className="text-muted-foreground">
@@ -209,80 +210,95 @@ export default function AdminBlogsPage() {
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {blogs.map((blog) => (
-              <Card key={blog._id} className="h-full flex flex-col">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <Link
-                      href={`/${blog.slug}`}
-                      target="_blank"
-                      className="text-lg font-semibold line-clamp-2 leading-tight hover:text-primary transition-colors"
-                    >
-                      {blog.title}
-                    </Link>
-
-
-                    <div className="flex items-center gap-3">
-                      <Badge
-                        variant={
-                          blog.status === "published" ? "default" : "secondary"
-                        }
+              <motion.div
+              key={blog._id}
+                whileHover={{ scale: 1.03 }}
+                className="transition-all"
+              >
+                <Card className="h-full flex flex-col hover:shadow-xl shadow-lg transition-shadow duration-300">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <Link
+                        href={`/${blog.slug}`}
+                        target="_blank"
+                        className="text-lg font-semibold line-clamp-2 leading-tight hover:text-primary transition-colors"
                       >
-                        {blog.status}
-                      </Badge>
+                        {blog.title}
+                      </Link>
 
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8"
-                          >
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-36">
-                          <DropdownMenuItem
-                            onClick={() => handleEdit(blog)}
-                            className="cursor-pointer"
-                          >
-                            <Edit className="h-4 w-4 mr-2" /> Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleDelete(blog)}
-                            className="cursor-pointer text-destructive"
-                          >
-                            <Trash2 className="h-4 w-4 mr-2" /> Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <div className="flex items-center gap-3">
+                        <Badge
+                          variant={
+                            blog.status === "published"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
+                          {blog.status}
+                        </Badge>
+
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 cursor-pointer"
+                            >
+                            
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-36">
+                            <DropdownMenuItem
+                              onClick={() => handleEdit(blog)}
+                              className="cursor-pointer"
+                            >
+                              <Edit className="h-4 w-4 mr-2" /> Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => handleDelete(blog)}
+                              className="cursor-pointer text-destructive"
+                            >
+                              <Trash2 className="h-4 w-4 mr-2" /> Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
+                  </CardHeader>
 
-                <CardContent className="flex-1 flex flex-col">
-                  <p className="text-muted-foreground mb-4 line-clamp-3 flex-1">
-                    {blog.excerpt}
-                  </p>
+                  <CardContent className="flex-1 flex flex-col">
+                    <p className="text-muted-foreground mb-4 line-clamp-3 flex-1">
+                      {blog.excerpt}
+                    </p>
 
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {blog.tags.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                    {blog.tags.length > 2 && (
-                      <Badge variant="secondary" className="text-xs">
-                        +{blog.tags.length - 2}
-                      </Badge>
-                    )}
-                  </div>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {blog.tags.slice(0, 2).map((tag) => (
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                      {blog.tags.length > 2 && (
+                        <Badge variant="secondary" className="text-xs">
+                          +{blog.tags.length - 2}
+                        </Badge>
+                      )}
+                    </div>
 
-                  <div className="flex items-center justify-between text-sm text-muted-foreground mt-auto">
-                    <span>{blog.readingTime} min read</span>
-                    <span>{blog.viewCount} views</span>
-                  </div>
-                </CardContent>
-              </Card>
+                    <div className="flex items-center justify-start text-sm text-muted-foreground mt-auto gap-4">
+                      <Clock className="h-4 w-4" />
+                      <span>{blog.readingTime} min read</span>
+
+                      <Eye className="h-4 w-4" />
+                      <span>{blog.viewCount} views</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         )}
@@ -307,7 +323,6 @@ export default function AdminBlogsPage() {
         )}
       </div>
 
-
       {totalPages > 1 && (
         <BlogPagination
           currentPage={currentPage}
@@ -317,14 +332,13 @@ export default function AdminBlogsPage() {
         />
       )}
 
-
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the blog
-              post &quot;{blogToDelete?.title}&quot; and remove it from the
+              This action cannot be undone. This will permanently delete the
+              blog post &quot;{blogToDelete?.title}&quot; and remove it from the
               servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
