@@ -50,7 +50,7 @@ export async function DELETE(
       success: true,
       message: "Comment deleted successfully"
     });
-  } catch (error) {
+  } catch  {
     return apiResponse({
       success: false,
       message: "Failed to delete comment",
