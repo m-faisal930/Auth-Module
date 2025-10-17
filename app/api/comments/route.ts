@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
         total: comments.length
       }
     });
-  } catch (error) {
+  } catch  {
     return apiResponse({
       success: false,
       message: "Failed to retrieve comments",
@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
       data: { comment: transformedComment },
       status: 201
     });
-  } catch (error) {
+  } catch {
     return apiResponse({
       success: false,
       message: "Failed to create comment",
