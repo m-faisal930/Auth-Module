@@ -1,8 +1,27 @@
-# Auth-Module
+# Ideary
 
-A compact authentication module built with Next.js (App Router) and MongoDB. It provides signup/login/logout, password reset (email via Resend), change-password, and a protected profile page. The project is intended as a drop-in auth example or a lightweight starting point for apps.
+Ideary is a modern publishing platform built for thinkers, writers, and dreamers.
+It allows users to create accounts, publish their stories, and share ideas with a global community — much like Medium, but with a cleaner interface and more creator-focused tools.
 
 Deployed: https://auth-module-theta.vercel.app/
+
+
+Key Features
+- Multi-user system — anyone can sign up, write, and share articles.
+
+- Rich text editor — publish your ideas in a distraction-free writing experience.
+
+- Comment & Like system — readers can interact, appreciate, and discuss posts.
+
+- User profiles — explore other writers’ pages and their published works.
+
+- Discover feed — browse trending and recent posts from the community.
+
+- Dashboard for creators — manage articles, edit drafts, and track engagement.
+
+- Secure authentication — JWT or Firebase-based auth to protect user data.
+
+- Modern UI/UX — clean, responsive design inspired by Medium’s simplicity.
 
 Key points
 - Next.js (App Router) with Route Handlers for API endpoints.
