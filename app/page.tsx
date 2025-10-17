@@ -42,42 +42,37 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-const fetchLatestBlogs = async () => {
-  try {
-    setIsLoading(true);
-    setError(null);
+  const fetchLatestBlogs = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
 
+      const params = new URLSearchParams({
+        page: "1",
+        limit: "3",
+        status: "published",
+        sortBy: "newest",
+      });
 
-    const params = new URLSearchParams({
-      page: "1",
-      limit: "3",
-      status: "published",
-      sortBy: "newest",
-    });
+      const response = await fetch(`/api/blogs?${params.toString()}`);
+      const data: BlogsResponse = await response.json();
 
-    const response = await fetch(`/api/blogs?${params.toString()}`);
-    const data: BlogsResponse = await response.json();
-
-    if (data.success) {
-      setBlogs(data.data.blogs);
-
-    } else {
-      setError(data.message || "Failed to fetch blogs");
+      if (data.success) {
+        setBlogs(data.data.blogs);
+      } else {
+        setError(data.message || "Failed to fetch blogs");
+      }
+    } catch (err) {
+      setError("An error occurred while fetching blogs");
+      console.error("Error fetching blogs:", err);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (err) {
-    setError("An error occurred while fetching blogs");
-    console.error("Error fetching blogs:", err);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   useEffect(() => {
     fetchLatestBlogs();
   }, []);
-
-  
-
 
   return (
     <div className="min-h-screen bg-background">
@@ -97,7 +92,6 @@ const fetchLatestBlogs = async () => {
           showActions={false}
           emptyMessage="No published blogs found. Be the first to write something!"
         />
-
 
         {!isLoading && blogs.length > 0 && (
           <div className="text-center mt-10">
